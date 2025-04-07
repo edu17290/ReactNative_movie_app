@@ -6,6 +6,7 @@ import useFetch from '@/services/useFetch'
 import { View, Text, Image, FlatList, ActivityIndicator } from 'react-native'
 import SearchBar from "@/components/SearchBar";
 import { useEffect, useState } from 'react'
+import { updateSerachCount } from '@/services/appwrite'
 
 const Search = () => {
 
@@ -20,6 +21,11 @@ const Search = () => {
       async () => {
         if(searchQuery.trim()){
           await loadMovies()
+          
+          if(movies?.length > 0 && movies?.[0]){
+            await updateSerachCount(searchQuery, movies[0])
+          }
+          
         } else {
           reset()
         }
